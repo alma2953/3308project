@@ -13,7 +13,10 @@ Trendzy
 * Mohamed Al-Rasbi
          
 ### Description 
-Trendzy is a multi-social media application where users can see what's trending on all the major social media platforms.     Twitter, Instagram and Facebook separately are all powerful tools to see what's trending in the world. Trendzy combines these platforms into one fully immersive experience. Our application will have two distinct features. The first is a map based UI where users can see posts based on location. The map will default to the users location and indicate spots on the map where there has recent social media activity. The user can then tap on the marker and they will be able to see more details about the posts. The user can search for a location or simply pan the map and pinch to zoom in to it.
+Trendzy is a multi-social media application where users can see what's trending on all the major social media platforms. Twitter, Instagram and Facebook separately are all powerful tools to see what's trending in the world. Trendzy combines these platforms into one fully immersive experience. Our application will have two distinct features.
+         The first feature is a map based UI where users can see posts based on location. The map will default to the users location and indicate spots on the map where there has been recent social media activity. The user can then tap on those locations and they will be able to see more details about the posts including the user, the content, and the timestamp. The user can search for a location or simply pan the map and pinch to zoom in to it. Using this map feature the user can see what we call "social media crowding", which can provide interesting insight into the correlation of trends and locations. Social media crowding will also show what locations people are posting from the most.
+         The second feature is an events page that lists major events happening around the world. When one of the events is selected the application displays social media posts about those events. This is similar to twitter's trending page but will include posts from all the major platforms making it much more powerful.
+
 
 ### Vision Statement 
 We envision an engaging new medium to browse social media through, resulting in the user being more connected to what is going on around them, rather than what is going on in their isolated circle of friends.
