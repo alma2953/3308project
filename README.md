@@ -33,10 +33,13 @@ This app was created in attempt to make engaging in social media on a global sca
 * Complete all of the above prior to the start of actual development in case any need to adjust the scope of the project, or the tools used is recognized.
 
 ### Version Control
-Git
+Github
 
 ### Development Method
 Agile/Scrum
+
+### Collaboration Tool
+Slack
 
 ### Architecture
 Frontend: Android Studio(Java), map API(Google Maps)
