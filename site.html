@@ -1,0 +1,73 @@
+<html>
+  <head>
+    <title>Geolocation</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <script src="http://code.jquery.com/jquery-2.2.0.js"></script>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+      var map, position;
+      var options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+      };
+
+      function success(pos) {
+        position = pos.coords;
+        var latLng = new google.maps.LatLng({lat: position.latitude, lng: position.longitude});
+        map.panTo(latLng);
+        var marker = new google.maps.Marker({
+          position: latLng,
+          map: map,
+          title: 'Your Location'
+        });
+
+        console.log('Your current position is:');
+        console.log(`Latitude : ${position.latitude}`);
+        console.log(`Longitude: ${position.longitude}`);
+        console.log(`More or less ${position.accuracy} meters.`);
+      };
+
+      function error(err) {
+        console.warn(`ERROR(${err.code}): ${err.message}`);
+      };
+      function initMap() {
+          map = new google.maps.Map(document.getElementById('map'), {
+                  center: {lat: 10, lng: 10},
+                  zoom: 15
+                });
+          navigator.geolocation.getCurrentPosition(success, error, options);
+          getTwitterData();
+      }
+
+      function getTwitterData(){
+        var twitterJsonObject;
+          $(document).ready(function() {
+            $.getJSON('http://127.0.0.1/twitter.php', function(data) {
+              console.log(data);
+            });
+          });
+          console.log(twitterJsonObject == null);
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDv-GgCEfo8ntMixpbrvAP5KgDAyy45EX0&callback=initMap">
+    </script>
+  </body>
+</html>
