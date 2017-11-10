@@ -1,0 +1,1 @@
+select Users.id, Users.name, Places.location, Places.longitude, Places.latitude from Places inner join Users on Places.user_id=Users.id;
