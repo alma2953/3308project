@@ -29,7 +29,7 @@
       };
 
       function success(pos) {
-        position = pos.coords;
+       position = pos.coords;
         var latLng = new google.maps.LatLng({lat: position.latitude, lng: position.longitude});
         map.panTo(latLng);
         var marker = new google.maps.Marker({
@@ -49,7 +49,7 @@
       };
       function initMap() {
           map = new google.maps.Map(document.getElementById('map'), {
-                  center: {lat: 10, lng: 10},
+                  center: {lat: 40, lng: -105},
                   zoom: 15
                 });
           navigator.geolocation.getCurrentPosition(success, error, options);
@@ -59,11 +59,22 @@
       function getTwitterData(){
         var twitterJsonObject;
           $(document).ready(function() {
-            $.getJSON('http://127.0.0.1/twitter.php', function(data) {
-              console.log(data);
-            });
-          });
-          console.log(twitterJsonObject == null);
+              twitterJsonObject  = $.getJSON('http://127.0.0.1/twitter.php');
+	      twitterJsonObject.complete(function(data){
+                  for(i = 0; i < data.responseJSON.length; i++){
+		      var loc = data.responseJSON[i].coordinates;
+		      if(loc != null){
+		          //console.log(loc['coordinates'][0] + ", " + loc['coordinates'][1]);
+				 var pos = new google.maps.LatLng(loc['coordinates'][0],loc['coordinates'][1]);
+			  console.log(pos);
+			  var marker = new google.maps.Marker({
+				 position: pos,
+				 map: map
+			  });	 
+		      }
+		  }	
+	      });
+ 	  });
       }
     </script>
     <script async defer
