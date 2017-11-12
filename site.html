@@ -49,33 +49,47 @@
       };
       function initMap() {
           map = new google.maps.Map(document.getElementById('map'), {
-                  center: {lat: 40, lng: -105},
+                  center: {lat: 40.0076, lng: -105.2659},
                   zoom: 15
                 });
           navigator.geolocation.getCurrentPosition(success, error, options);
           getTwitterData();
       }
+      var infowindow;
+
+      function parseTwitterData(data){
+        infowindow = new google.maps.InfoWindow();
+        for(i in data){
+          if (data[i].coordinates != null){
+            var latLng = new google.maps.LatLng({lat: data[i].coordinates.coordinates[1],lng: data[i].coordinates.coordinates[0]});
+            var marker = new google.maps.Marker({
+              position: latLng,
+              map: map,
+              title: data[i].text
+            });
+
+            console.log(marker.getTitle());
+            google.maps.event.addListener(marker, 'click', function () {
+              infowindow.setContent(this.title);
+              infowindow.open(map, this);
+            });
+        console.log(data[i]);
+          }
+
+
+        }    
+      }
 
       function getTwitterData(){
         var twitterJsonObject;
-          $(document).ready(function() {
-              twitterJsonObject  = $.getJSON('http://127.0.0.1/twitter.php');
-	      twitterJsonObject.complete(function(data){
-                  for(i = 0; i < data.responseJSON.length; i++){
-		      var loc = data.responseJSON[i].coordinates;
-		      if(loc != null){
-		          //console.log(loc['coordinates'][0] + ", " + loc['coordinates'][1]);
-				 var pos = new google.maps.LatLng(loc['coordinates'][0],loc['coordinates'][1]);
-			  console.log(pos);
-			  var marker = new google.maps.Marker({
-				 position: pos,
-				 map: map
-			  });	 
-		      }
-		  }	
-	      });
- 	  });
+       $(document).ready(function() {
+          var url = 'http://127.0.0.1/twitter.php'
+          $.ajax({url:url, dataType:"json"}).then(function(data) {
+              parseTwitterData(data);
+          })
+        })
       }
+
     </script>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDv-GgCEfo8ntMixpbrvAP5KgDAyy45EX0&callback=initMap">
