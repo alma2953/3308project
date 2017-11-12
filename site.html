@@ -83,7 +83,7 @@
       function getTwitterData(){
         var twitterJsonObject;
        $(document).ready(function() {
-          var url = 'http://127.0.0.1/twitter.php'
+          var url = 'http://127.0.0.1/Trendzy/twitter.php'
           $.ajax({url:url, dataType:"json"}).then(function(data) {
               parseTwitterData(data);
           })
