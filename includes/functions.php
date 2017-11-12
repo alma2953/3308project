@@ -12,12 +12,16 @@
 
 		if($attribute == 'password')
 		{
-			$query = $query = "select id from {$table} where password=SHA1('{$item}');";
+			$tmp = "set @tmp = SHA1('$item');";
+			$query = "select id from {$table} where password=@tmp;";
+			$result = mysqli_query($connection, $tmp);
+
 		}
 		else
 		{
 			$query = "select id from {$table} where {$attribute}='{$item}';";
 		}
+		
 		$result = mysqli_query($connection, $query);
 
 		$count = 0;
