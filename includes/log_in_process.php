@@ -17,7 +17,7 @@
 
 	if($search_user == 1 and $search_pass == 1)
 	{
-		echo "<h3>{$username} is found!</h3>";	
+		redirect_to("../site.html");
 	}
 	else
 	{ ?>
