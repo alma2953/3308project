@@ -35,6 +35,7 @@
 	else
 	{
 		insert_Users($username, $email, $firstname, $lastname, $password);
+		echo "<p>{$username}, {$password}, {$email}, ${firstname}, {$lastname}</p>";
 	?>
 		<form id="test" action="../public/log_in.php" method="post">
 			<input type="hidden" name="host" value="<?php echo $db_host ?>">
