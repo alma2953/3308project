@@ -1,6 +1,6 @@
 /* populate Users table with sample data */
 
-insert into `Users` (`id`, `name`, `username`, `email`) values
+insert into `Users` (`id`, `first_name`, `username`, `email`) values
 	(1, 'Mohamed', 'Mohd', 'test1@test.com'),
 	(2, 'Alex', 'Alex', 'test2@test.com'),
 	(3, 'Abdullah', 'Abdul', 'test3@test.com'),
