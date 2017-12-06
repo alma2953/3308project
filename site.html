@@ -3,6 +3,8 @@
     <title>Geolocation</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
+    <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+    <div  id="map-canvas"></div>
     <style>
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
@@ -14,6 +16,76 @@
         height: 100%;
         margin: 0;
         padding: 0;
+      }
+            #description {
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+      }
+
+      #infowindow-content .title {
+        font-weight: bold;
+      }
+
+      #infowindow-content {
+        display: none;
+      }
+
+      #map #infowindow-content {
+        display: inline;
+      }
+
+      .pac-card {
+        margin: 10px 10px 0 0;
+        border-radius: 2px 0 0 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        background-color: #fff;
+        font-family: Roboto;
+      }
+
+      #pac-container {
+        padding-bottom: 12px;
+        margin-right: 12px;
+      }
+
+      .pac-controls {
+        display: inline-block;
+        padding: 5px 11px;
+      }
+
+      .pac-controls label {
+        font-family: Roboto;
+        font-size: 13px;
+        font-weight: 300;
+      }
+
+      #pac-input {
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 400px;
+      }
+
+      #pac-input:focus {
+        border-color: #4d90fe;
+      }
+
+      #title {
+        color: #fff;
+        background-color: #4d90fe;
+        font-size: 25px;
+        font-weight: 500;
+        padding: 6px 12px;
+      }
+      #target {
+        width: 345px;
       }
     </style>
     <script src="http://code.jquery.com/jquery-2.2.0.js"></script>
@@ -37,7 +109,7 @@
           map: map,
           title: 'Your Location'
         });
-
+        getTwitterData(position.latitude, position.longitude);
         console.log('Your current position is:');
         console.log(`Latitude : ${position.latitude}`);
         console.log(`Longitude: ${position.longitude}`);
@@ -53,7 +125,69 @@
                   zoom: 15
                 });
           navigator.geolocation.getCurrentPosition(success, error, options);
-          getTwitterData();
+          if (position != null) {
+            getTwitterData(position.latitude, position.longitude);
+          } else {
+            getTwitterData(40.0076,-105.2659);
+          }
+
+           // Create the search box and link it to the UI element.
+  var input = /** @type {HTMLInputElement} */(
+      document.getElementById('pac-input'));
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+  var searchBox = new google.maps.places.SearchBox(
+    /** @type {HTMLInputElement} */(input));
+
+  // [START region_getplaces]
+  // Listen for the event fired when the user selects an item from the
+  // pick list. Retrieve the matching places for that item.
+  google.maps.event.addListener(searchBox, 'places_changed', function() {
+    var places = searchBox.getPlaces();
+
+    if (places.length == 0) {
+      return;
+    }
+    for (var i = 0, marker; marker = markers[i]; i++) {
+      marker.setMap(null);
+    }
+
+    // For each place, get the icon, place name, and location.
+    markers = [];
+    var bounds = new google.maps.LatLngBounds();
+    for (var i = 0, place; place = places[i]; i++) {
+      var image = {
+        url: place.icon,
+        size: new google.maps.Size(71, 71),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(25, 25)
+      };
+
+      // Create a marker for each place.
+      var marker = new google.maps.Marker({
+        map: map,
+        icon: image,
+        title: place.name,
+        position: place.geometry.location
+      });
+
+      markers.push(marker);
+
+      bounds.extend(place.geometry.location);
+    }
+
+    map.fitBounds(bounds);
+  });
+  // [END region_getplaces]
+
+  // Bias the SearchBox results towards places that are within the bounds of the
+  // current map's viewport.
+  google.maps.event.addListener(map, 'bounds_changed', function() {
+    var bounds = map.getBounds();
+    searchBox.setBounds(bounds);
+  });
+
       }
       var infowindow;
 
@@ -65,7 +199,7 @@
             var marker = new google.maps.Marker({
               position: latLng,
               map: map,
-              title: data[i].text
+              title: data[i].full_text
             });
 
             console.log(marker.getTitle());
@@ -80,19 +214,24 @@
         }    
       }
 
-      function getTwitterData(){
+      function getTwitterData(latitude, longitude){
         var twitterJsonObject;
+        console.log("here");
        $(document).ready(function() {
           var url = 'http://127.0.0.1/Trendzy/twitter.php'
-          $.ajax({url:url, dataType:"json"}).then(function(data) {
+          $.ajax({url:url, dataType:"json", 
+            data: {lat: latitude, long: longitude}
+        }).then(function(data) {
               parseTwitterData(data);
           })
         })
       }
 
+
+
     </script>
     <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDv-GgCEfo8ntMixpbrvAP5KgDAyy45EX0&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDv-GgCEfo8ntMixpbrvAP5KgDAyy45EX0&libraries=places&callback=initMap">
     </script>
   </body>
 </html>
