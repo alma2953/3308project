@@ -15,7 +15,7 @@
 		// $connection = mysql_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD) or die(mysql_error());
 		// $database = mysql_select_db(DB_DATABASE) or die(mysql_error());
 
-		$connection = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE) or die(mysql_error());
+		$connection = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE) or die(mysqli_error());
 
 		return $connection;
 	}
@@ -63,5 +63,9 @@
 
 		$result = mysqli_query($connection, $query);
 	}
+
+
+
+
 
 ?>

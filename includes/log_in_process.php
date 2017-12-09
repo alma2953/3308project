@@ -1,5 +1,6 @@
 <?php
 	ob_start();
+	session_start();
 	require_once("../includes/functions.php");
 
 	$connection = connect_db();
@@ -12,7 +13,13 @@
 
 	if($search_user == 1 and $search_pass == 1)
 	{
-		redirect_to("../site.html");
+		$result = mysqli_query($connection, "select id from Users where username='{$username}';");
+
+		while($row = mysqli_fetch_assoc($result))
+		{
+			$_SESSION['id'] = $row['id'];
+		}
+		redirect_to("../site.php");
 	}
 	else
 	{ 
