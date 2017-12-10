@@ -129,6 +129,17 @@
         console.log(`More or less ${position.accuracy} meters.`);
       };
 
+      function loadURL(marker){
+      	return function(){
+      		if(marker.url != null){
+      			window.open(
+  					marker.url,
+  					'_blank' //Opens in new tab
+				);
+      		}
+      	}
+      }
+
       function error(err) {
         console.warn(`ERROR(${err.code}): ${err.message}`);
       };
@@ -206,25 +217,33 @@
         infowindow = new google.maps.InfoWindow();
         for(i in data){
           if (data[i].coordinates != null){
+
+          	var dataSplit = data[i].full_text.split(' ');
+          	var sourceUrl = dataSplit[dataSplit.length-1];
+
           	var src = data[i].source.split("\"")[1];
           	var basePath = "http://127.0.0.1/Trendzy/img/";
           	var iconPath;
           	if (src == "http://instagram.com"){
           		iconPath = "instagram.png";
           	} else if (src == "http://foursquare.com"){
-          		iconPath = "foursqare.png";
+          		iconPath = "foursquare.png";
           	} else {
           		iconPath = "twitter.png";
+          		sourceUrl = null; //twitter links don't work
           	}
           	basePath += iconPath;
-          	console.log(src);
+
             var latLng = new google.maps.LatLng({lat: data[i].coordinates.coordinates[1],lng: data[i].coordinates.coordinates[0]});
             var marker = new google.maps.Marker({
               position: latLng,
               map: map,
      		  icon: basePath,
+     		  url: sourceUrl,
               title: data[i].full_text
             });
+
+            google.maps.event.addListener(marker, 'click', loadURL(marker));
 
             console.log(marker.getTitle());
             google.maps.event.addListener(marker, 'click', function () {
