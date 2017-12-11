@@ -12,10 +12,10 @@
   }
   else
   {
-    $var1 = "Logout";
-    $var2 = "Favorites";
-    $path1 = "public/log_out.php";
-    $path2 = "#";
+    $var1 = "Favorites";
+    $var2 = "Logout";
+    $path1 = "#";
+    $path2 = "public/log_out.php";
   }
 
 ?>
@@ -31,26 +31,37 @@
     
     <style>
       .dropdown-content {
-          display: none;
-          position: absolute;
-          background-color: #f9f9f9;
-          min-width: 160px;
-          box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-          z-index: 1;
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
       }
-
+      
+      .dropdown {
+        float: left;
+        overflow: hidden;
+      }
+      .dropdown .dropbtn {
+        cursor: pointer;
+        font-size: 16px;    
+        border: none;
+        outline: none;
+        color: white;
+        padding: 14px 16px;
+        background-color: inherit;
+      }
       .dropdown-content a {
-          color: black;
-          padding: 12px 16px;
-          text-decoration: none;
-          display: block;
-          text-align: left;
+        float: none;
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        text-align: left;
       }
-
-      .dropdown-content a:hover {background-color: #f1f1f1}
-
-      .dropdown:hover .dropdown-content {
-          display: block;
+      .dropdown-content a:hover {
+        background-color: #ddd;
       }
       .show {
         display: block;
@@ -197,44 +208,12 @@
       <div id="myNav" class="overlay">
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
       <div class="overlay-content">
-        <a href="<?php echo $path1 ?>">
-            <?php echo $var1?>
-        </a>
-        <?php 
-          global $var2;
-          if($var2 == "Favorites") { ?>
-
-            <div class="dropdown">
-              <a href="javascript:void(0)" class ="dropbtn">
-                  <?php echo $var2?>
-              </a>
-              <div class="dropdown-content" id = "Places">
-                <script>
-                  function getPlaces(data){
-                    var json = data.split('\n');
-                    for (i = 0; i < json.length; i++){
-                      console.log(json[0]);
-                    }
-                  }
-                </script>
-                <?php
-                  $places = array("Manhattan", "Boulder", "Pyongang");
-                  foreach($places as $place)  {
-                    echo "<a>$place</a>";
-                  }
-                  
-                ?>
-                <a> Add Place </a>
-              </div>
-            </div>
-
-          <?php } else { ?>
-
-            <a href="<?php echo $path2 ?>">
-              <?php echo $var2 ?>
-            </a>
-
-          <?php } ?>
+      <a href="<?php echo $path1 ?>">
+          <?php echo $var1?>
+      </a>
+      <a href="<?php echo $path2 ?>">
+        <?php echo $var2 ?>
+      </a>
       </div>
     </div>
     <span style="font-size:30px; font-family: ; cursor:pointer" onclick="openNav()">&#9776; Trendzy</span>
@@ -248,7 +227,29 @@
         document.getElementById("myNav").style.width = "0%";
     }
     </script>
-
+    <div class="dropdown">
+      <button class="dropbtn" onclick="showPlaces()">Dropdown
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-content" id = "Places">
+        <script>
+          function getPlaces(data){
+            var json = data.split('\n');
+            for (i = 0; i < json.length; i++){
+              console.log(json[0]);
+            }
+          }
+        </script>
+        <?php
+          $places = array("Manhattan", "Boulder", "Pyongang");
+          foreach($places as $place)  {
+            echo "<a>$place</a>";
+          }
+          
+        ?>
+        <a> Add Place </a>
+      </div>
+    </div>
     <script>
       function showPlaces(){
         document.getElementById("Places").classList.toggle("show");
@@ -272,7 +273,6 @@
       };
 
       function success(pos) {
-       getUserID();
        position = pos.coords;
         var latLng = new google.maps.LatLng({lat: position.latitude, lng: position.longitude});
         map.panTo(latLng);
@@ -418,13 +418,8 @@
         }    
       }
 
-      function getUserID(){
-        var id  = <?php echo $_SESSION['id']?>;
-        return id;
-      }
 
       function addPlaces(){
-        getUserID();
         var latlng = map.getCenter();
         var addy;
         var geocoder = new google.maps.Geocoder;
@@ -435,11 +430,11 @@
             }
           }
         })
-         console.log(getUserID());
+
         $(document).ready(function() {
           var url = 'includes/addPlace.php'
           $.ajax({url:url, dataType:"json", 
-            data: {lat: latlng.lat(), long: latlng.lng(), location: addy, user_id: getUserID()}
+            data: {lat: latlng.lat(), long: latlng.lng(), location: addy, user_id: 6}
         })
         })
 
@@ -448,16 +443,19 @@
 
       function list_Places() {
 
+
         $(document).ready(function() {
           var url = 'includes/listPlaces.php'
-          $.ajax({url:url, dataType: "json",
-            data: {user_id: getUserID()}
+          $.ajax({url:url, 
+            data: {user_id: 6}
         }).then(function(data) {
-              console.log(data);
+              console.log("THIS IS THE DATA "+data);
+              getPlaces(data);
           })
           })
 
       }
+
 
       function getTwitterData(latitude, longitude){
         var twitterJsonObject;
