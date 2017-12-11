@@ -32,7 +32,7 @@
     <style>
       .dropdown-content {
           display: none;
-          position: absolute;
+          position: ;
           background-color: #f9f9f9;
           min-width: 160px;
           box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
@@ -44,10 +44,10 @@
           padding: 12px 16px;
           text-decoration: none;
           display: block;
-          text-align: left;
+          text-align: center;
       }
 
-      .dropdown-content a:hover {background-color: #f1f1f1}
+      .dropdown-content a:hover {background-color: gray;}
 
       .dropdown:hover .dropdown-content {
           display: block;
