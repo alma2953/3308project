@@ -27,7 +27,7 @@
 	}
 	else
 	{
-		if(!ereg(".+@.+\.", $email))
+		if(!filter_var($email, FILTER_VALIDATE_EMAIL))
 		{
 			redirect_to("../public/register.php?again=1&check_email=1");
 		}
