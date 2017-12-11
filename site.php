@@ -149,6 +149,14 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-content" id = "Places">
+        <script>
+          function getPlaces(data){
+            var json = data.split('\n');
+            for (i = 0; i < json.length; i++){
+              console.log(json[0]);
+            }
+          }
+        </script>
         <?php
           $places = array("Manhattan", "Boulder", "Pyongang");
           foreach($places as $place)  {
@@ -359,6 +367,7 @@
             data: {user_id: 6}
         }).then(function(data) {
               console.log("THIS IS THE DATA "+data);
+              getPlaces(data);
           })
           })
 
