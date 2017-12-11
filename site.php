@@ -1,6 +1,8 @@
 <?php
   ob_start();
   session_start();
+  require_once("includes/functions.php");
+
   if(isset($_SESSION['id']) == null)
   {
     echo "<h3>You need to <a href='public/log_in.php'>log in</a>..</h3>";
@@ -210,6 +212,7 @@
         console.warn(`ERROR(${err.code}): ${err.message}`);
       };
       function initMap() {
+          
           map = new google.maps.Map(document.getElementById('map'), {
                   center: {lat: 40.0076, lng: -105.2659},
                   zoom: 15
@@ -220,6 +223,7 @@
           } else {
             getTwitterData(40.0076,-105.2659);
           }
+          addPlaces();
 
            // Create the search box and link it to the UI element.
   var input = /** @type {HTMLInputElement} */(
@@ -288,7 +292,7 @@
           	var sourceUrl = dataSplit[dataSplit.length-1];
 
           	var src = data[i].source.split("\"")[1];
-          	var basePath = "http://127.0.0.1/Trendzy/img/";
+          	var basePath = "img/";
           	var iconPath;
           	if (src == "http://instagram.com"){
           		iconPath = "instagram.png";
@@ -323,11 +327,48 @@
         }    
       }
 
+
+      function addPlaces(){
+        var latlng = map.getCenter();
+        var addy;
+        var geocoder = new google.maps.Geocoder;
+         geocoder.geocode({'location': latlng}, function(results, status) {
+          if (status === 'OK') {
+            if (results[0]) {
+              addy = results[0].formatted_address;
+            }
+          }
+        })
+
+        $(document).ready(function() {
+          var url = 'http://127.0.0.1/Trendzy/includes/addPlace.php'
+          $.ajax({url:url, dataType:"json", 
+            data: {lat: latlng.lat(), long: latlng.lng(), location: addy, user_id: 6}
+        })
+        })
+
+        list_Places();
+      }
+
+      function list_Places() {
+
+
+        $(document).ready(function() {
+          var url = 'http://127.0.0.1/Trendzy/includes/listPlaces.php'
+          $.ajax({url:url, 
+            data: {user_id: 6}
+        }).then(function(data) {
+              console.log("THIS IS THE DATA "+data);
+          })
+          })
+
+      }
+
+
       function getTwitterData(latitude, longitude){
         var twitterJsonObject;
-        console.log("here");
        $(document).ready(function() {
-          var url = 'http://127.0.0.1/Trendzy/twitter.php'
+          var url = 'twitter.php'
           $.ajax({url:url, dataType:"json", 
             data: {lat: latitude, long: longitude}
         }).then(function(data) {
