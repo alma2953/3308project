@@ -10,7 +10,7 @@
 		$placesArray = array();
 		while($row = mysqli_fetch_assoc($result))
 		{
-			$array = array('name' => $row['location'],'lat' => $row['latitude'],'lng' => $row['latitude']);
+			$array = array('name' => $row['location'],'lat' => $row['latitude'],'lng' => $row['longitude']);
 			array_push($placesArray, $array);
 		}
 		echo json_encode($placesArray);
