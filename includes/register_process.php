@@ -27,9 +27,15 @@
 	}
 	else
 	{
-		insert_Users($username, $email, $firstname, $lastname, $password);
-		echo "<p>{$username}, {$password}, {$email}, ${firstname}, {$lastname}</p>";
-		redirect_to("../public/log_in.php");
+		if(!filter_var($email, FILTER_VALIDATE_EMAIL))
+		{
+			redirect_to("../public/register.php?again=1&check_email=1");
+		}
+		else
+		{
+			insert_Users($username, $email, $firstname, $lastname, $password);
+			redirect_to("../public/log_in.php");
+		}
 	}
 
 	ob_end_flush();
