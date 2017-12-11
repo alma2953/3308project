@@ -5,12 +5,19 @@
 
   if(isset($_SESSION['id']) == null)
   {
-    echo "<h3>You need to <a href='public/log_in.php'>log in</a>..</h3>";
-    echo "<h3>{$_SESSION['id']}</h3>";
-    die();
+    $var1 = "Login";
+    $var2 = "Register";
+    $path1 = "public/log_in.php";
+    $path2 = "public/register.php";
+  }
+  else
+  {
+    $var1 = "Favorites";
+    $var2 = "Logout";
+    $path1 = "#";
+    $path2 = "public/log_out.php";
   }
 
-  echo "<a href='public/log_out.php'><h3> log out </h3></a>";
 ?>
 
 <html>
@@ -20,7 +27,45 @@
     <meta charset="utf-8">
     <input id="pac-input" class="controls" type="text" placeholder="Search Box">
     <div  id="map-canvas"></div>
+
+    
     <style>
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+      }
+      
+      .dropdown {
+        float: left;
+        overflow: hidden;
+      }
+      .dropdown .dropbtn {
+        cursor: pointer;
+        font-size: 16px;    
+        border: none;
+        outline: none;
+        color: white;
+        padding: 14px 16px;
+        background-color: inherit;
+      }
+      .dropdown-content a {
+        float: none;
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        text-align: left;
+      }
+      .dropdown-content a:hover {
+        background-color: #ddd;
+      }
+      .show {
+        display: block;
+      }
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
       #map {
@@ -102,10 +147,122 @@
       #target {
         width: 345px;
       }
+      body {
+    font-family: 'Lato', sans-serif;
+      }
+
+      .overlay {
+          height: 100%;
+          width: 0;
+          position: fixed;
+          z-index: 1;
+          top: 0;
+          left: 0;
+          background-color: rgb(0,0,0);
+          background-color: rgba(0,0,0, 0.9);
+          overflow-x: hidden;
+          transition: 0.5s;
+      }
+
+      .overlay-content {
+          position: relative;
+          top: 25%;
+          width: 100%;
+          text-align: center;
+          margin-top: 30px;
+      }
+
+      .overlay a {
+          padding: 8px;
+          text-decoration: none;
+          font-size: 36px;
+          color: #818181;
+          display: block;
+          transition: 0.3s;
+      }
+
+      .overlay a:hover, .overlay a:focus {
+          color: #f1f1f1;
+      }
+
+      .overlay .closebtn {
+          position: absolute;
+          top: 20px;
+          right: 45px;
+          font-size: 60px;
+      }
+
+      @media screen and (max-height: 450px) {
+        .overlay a {font-size: 20px}
+        .overlay .closebtn {
+          font-size: 40px;
+          top: 15px;
+          right: 35px;
+        }
+      }
     </style>
+
     <script src="http://code.jquery.com/jquery-2.2.0.js"></script>
   </head>
   <body>
+      <div id="myNav" class="overlay">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+      <div class="overlay-content">
+      <a href="<?php echo $path1 ?>">
+          <?php echo $var1?>
+      </a>
+      <a href="<?php echo $path2 ?>">
+        <?php echo $var2 ?>
+      </a>
+      </div>
+    </div>
+    <span style="font-size:30px; font-family: ; cursor:pointer" onclick="openNav()">&#9776; Trendzy</span>
+
+    <script>
+    function openNav() {
+        document.getElementById("myNav").style.width = "30%";
+    }
+
+    function closeNav() {
+        document.getElementById("myNav").style.width = "0%";
+    }
+    </script>
+    <div class="dropdown">
+      <button class="dropbtn" onclick="showPlaces()">Dropdown
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-content" id = "Places">
+        <script>
+          function getPlaces(data){
+            var json = data.split('\n');
+            for (i = 0; i < json.length; i++){
+              console.log(json[0]);
+            }
+          }
+        </script>
+        <?php
+          $places = array("Manhattan", "Boulder", "Pyongang");
+          foreach($places as $place)  {
+            echo "<a>$place</a>";
+          }
+          
+        ?>
+        <a> Add Place </a>
+      </div>
+    </div>
+    <script>
+      function showPlaces(){
+        document.getElementById("Places").classList.toggle("show");
+      }
+      window.onclick = function(e){
+        if(!e.target.matches('.dropbtn')) {
+          var dropDown = document.getElementById("Places");
+          if(dropDown.classList.contains('show')){
+            dropDown.classList.remove('show');
+          }
+        }
+      }
+    </script>
     <div id="map"></div>
     <script>
       var map, position;
@@ -281,7 +438,7 @@
         })
          console.log(getUserID());
         $(document).ready(function() {
-          var url = 'http://127.0.0.1/Trendzy/includes/addPlace.php'
+          var url = 'includes/addPlace.php'
           $.ajax({url:url, dataType:"json", 
             data: {lat: latlng.lat(), long: latlng.lng(), location: addy, user_id: getUserID()}
         })
@@ -294,11 +451,12 @@
 
 
         $(document).ready(function() {
-          var url = 'http://127.0.0.1/Trendzy/includes/listPlaces.php'
+          var url = 'includes/listPlaces.php'
           $.ajax({url:url, 
             data: {user_id: getUserID()}
         }).then(function(data) {
               console.log("THIS IS THE DATA "+data);
+              getPlaces(data);
           })
           })
 
@@ -318,9 +476,8 @@
       }
 
 
-
     </script>
-    <script async defer
+    <script 
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDv-GgCEfo8ntMixpbrvAP5KgDAyy45EX0&libraries=places&callback=initMap">
     </script>
   </body>
