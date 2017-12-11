@@ -224,7 +224,7 @@
                   }
                   
                 ?>
-                <a> Add Place </a>
+                <a  href="javascript:addPlaces()"> Add Place </a>
               </div>
             </div>
 
@@ -424,6 +424,7 @@
       }
 
       function addPlaces(){
+        console.log("here");
         getUserID();
         var latlng = map.getCenter();
         var addy;
