@@ -12,31 +12,33 @@
 
 	$search_user = search_db('Users', 'username', $username);
 	$search_email = search_db('Users', 'email', $email);
-	
-	if($search_user == 1 and $search_email == 1)
-	{ 
-		redirect_to("../public/register.php?again=1&email=1&user=1");
-	}
-	elseif($search_user == 1)
+
+	$tmp = "";
+
+	if($search_user == 1)
+		$tmp .= "user=1";
+
+	if($search_email == 1)
+		if($tmp != "")
+			$tmp .= "&email=1";
+		else
+			$tmp .= "email=1";
+
+	if(!filter_var($email, FILTER_VALIDATE_EMAIL))
+		if($tmp != "")
+			$tmp .= "&check_email=1";
+		else
+			$tmp .= "check_email=1";
+
+	if($tmp == "")
 	{
-		redirect_to("../public/register.php?again=1&user=1");
-	}
-	elseif($search_email == 1)
-	{
-		redirect_to("../public/register.php?again=1&email=1");
+		insert_Users($username, $email, $firstname, $lastname, $password);
+		redirect_to("../public/log_in.php");
 	}
 	else
 	{
-		if(!filter_var($email, FILTER_VALIDATE_EMAIL))
-		{
-			redirect_to("../public/register.php?again=1&check_email=1");
-		}
-		else
-		{
-			insert_Users($username, $email, $firstname, $lastname, $password);
-			redirect_to("../public/log_in.php");
-		}
+		redirect_to("../public/register.php?again=1&{$tmp}");
 	}
-
+	
 	ob_end_flush();
 ?>
