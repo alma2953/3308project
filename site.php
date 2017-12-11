@@ -449,21 +449,18 @@
 
       function list_Places() {
 
-
         $(document).ready(function() {
           var url = 'includes/listPlaces.php'
-          $.ajax({url:url, 
+          $.ajax({url:url, dataType: "json",
             data: {user_id: getUserID()}
         }).then(function(data) {
-              console.log("THIS IS THE DATA "+data);
-              getPlaces(data);
+              console.log(data);
           })
           })
 
       }
 
       function getTwitterData(latitude, longitude){
-        console.log("out");
         var twitterJsonObject;
        $(document).ready(function() {
           var url = 'twitter.php'

@@ -15,7 +15,7 @@ $places6 = $connection->get("search/tweets", ["q" => "and", "geocode" => "{$lat}
 $places7 = $connection->get("search/tweets", ["q" => "you", "geocode" => "{$lat},{$long},1mi","tweet_mode"=>extended]);
 $places8 = $connection->get("search/tweets", ["q" => "is", "geocode" => "{$lat},{$long},1mi","tweet_mode"=>extended]);
 $places8 = $connection->get("search/tweets", ["q" => "in", "geocode" => "{$lat},{$long},1mi","tweet_mode"=>extended]);
-$places9 = $connection->get("search/tweets", ["q" => "of", "geocode" => "{$lat},{$long},1mi","tweet_mode"=>extended]);
+$places9 = $connection->get("search/tweets", ["q" => "of", "geocode" => "35,35,1mi","tweet_mode"=>extended]);
 
 
 $placesArray = array_merge($places->statuses,$places2->statuses,$places3->statuses,$places4->statuses,$places5->statuses,$places6->statuses);
