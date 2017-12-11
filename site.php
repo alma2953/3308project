@@ -224,7 +224,7 @@
                   }
                   
                 ?>
-                <a> Add Place </a>
+                <a  href="javascript:addPlaces()"> Add Place </a>
               </div>
             </div>
 
@@ -272,6 +272,7 @@
       };
 
       function success(pos) {
+       getUserID();
        position = pos.coords;
         var latLng = new google.maps.LatLng({lat: position.latitude, lng: position.longitude});
         map.panTo(latLng);
@@ -417,8 +418,14 @@
         }    
       }
 
+      function getUserID(){
+        var id  = <?php echo $_SESSION['id']?>;
+        return id;
+      }
 
       function addPlaces(){
+        console.log("here");
+        getUserID();
         var latlng = map.getCenter();
         var addy;
         var geocoder = new google.maps.Geocoder;
@@ -429,11 +436,11 @@
             }
           }
         })
-
+         console.log(getUserID());
         $(document).ready(function() {
           var url = 'includes/addPlace.php'
           $.ajax({url:url, dataType:"json", 
-            data: {lat: latlng.lat(), long: latlng.lng(), location: addy, user_id: 6}
+            data: {lat: latlng.lat(), long: latlng.lng(), location: addy, user_id: getUserID()}
         })
         })
 
@@ -442,19 +449,16 @@
 
       function list_Places() {
 
-
         $(document).ready(function() {
           var url = 'includes/listPlaces.php'
-          $.ajax({url:url, 
-            data: {user_id: 6}
+          $.ajax({url:url, dataType: "json",
+            data: {user_id: getUserID()}
         }).then(function(data) {
-              console.log("THIS IS THE DATA "+data);
-              getPlaces(data);
+              console.log(data);
           })
           })
 
       }
-
 
       function getTwitterData(latitude, longitude){
         var twitterJsonObject;
