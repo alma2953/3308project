@@ -30,6 +30,12 @@
 
     
     <style>
+
+      @font-face {
+          font-family: buffalo;
+          src: url(BuffaloScript-Regular.otf);
+      }
+
       .dropdown-content {
           display: none;
           position: absolute;
@@ -164,7 +170,7 @@
       .overlay a {
           padding: 8px;
           text-decoration: none;
-          font-size: 36px;
+          font-size: 50px;
           color: #818181;
           display: block;
           transition: 0.3s;
@@ -194,7 +200,7 @@
     <script src="http://code.jquery.com/jquery-2.2.0.js"></script>
   </head>
   <body>
-      <div id="myNav" class="overlay">
+      <div id="myNav" class="overlay" style="font-family: buffalo;">
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
       <div class="overlay-content">
         <a href="<?php echo $path1 ?>">
@@ -237,7 +243,7 @@
           <?php } ?>
       </div>
     </div>
-    <span style="font-size:30px; font-family: ; cursor:pointer" onclick="openNav()">&#9776; Trendzy</span>
+    <span style="font-size:60px; font-family: buffalo; font-weight: bold; cursor:pointer" onclick="openNav()">&#9776; Trendzy</span>
 
     <script>
     function openNav() {
