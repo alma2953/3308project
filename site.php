@@ -222,7 +222,7 @@
           	var sourceUrl = dataSplit[dataSplit.length-1];
 
           	var src = data[i].source.split("\"")[1];
-          	var basePath = "http://127.0.0.1/Trendzy/img/";
+          	var basePath = "img/";
           	var iconPath;
           	if (src == "http://instagram.com"){
           		iconPath = "instagram.png";
@@ -261,7 +261,7 @@
         var twitterJsonObject;
         console.log("here");
        $(document).ready(function() {
-          var url = 'http://127.0.0.1/Trendzy/twitter.php'
+          var url = 'twitter.php'
           $.ajax({url:url, dataType:"json", 
             data: {lat: latitude, long: longitude}
         }).then(function(data) {

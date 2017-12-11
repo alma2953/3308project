@@ -13,6 +13,8 @@
 					echo "<li><p>Username exists</p></li>";
 				if($_GET["email"] == 1) 
 					echo "<li><p>Email exists</p></li>";
+				if($_GET["check_email"] == 1)
+					echo "<li><p>Enter a valid email</p></li>";
 				echo "</ul>";
 			} 
 		?>
