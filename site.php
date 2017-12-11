@@ -18,7 +18,45 @@
     <meta charset="utf-8">
     <input id="pac-input" class="controls" type="text" placeholder="Search Box">
     <div  id="map-canvas"></div>
+
+    
     <style>
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+      }
+      
+      .dropdown {
+        float: left;
+        overflow: hidden;
+      }
+      .dropdown .dropbtn {
+        cursor: pointer;
+        font-size: 16px;    
+        border: none;
+        outline: none;
+        color: white;
+        padding: 14px 16px;
+        background-color: inherit;
+      }
+      .dropdown-content a {
+        float: none;
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        text-align: left;
+      }
+      .dropdown-content a:hover {
+        background-color: #ddd;
+      }
+      .show {
+        display: block;
+      }
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
       #map {
@@ -104,6 +142,34 @@
     <script src="http://code.jquery.com/jquery-2.2.0.js"></script>
   </head>
   <body>
+    <div class="dropdown">
+      <button class="dropbtn" onclick="showPlaces()">Dropdown
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-content" id = "Places">
+        <?php
+          $places = array("Manhattan", "Boulder", "Pyongang");
+          foreach($places as $place)  {
+            echo "<a>$place</a>";
+          }
+          
+        ?>
+        <a> Add Place </a>
+      </div>
+    </div>
+    <script>
+      function showPlaces(){
+        document.getElementById("Places").classList.toggle("show");
+      }
+      window.onclick = function(e){
+        if(!e.target.matches('.dropbtn')) {
+          var dropDown = document.getElementById("Places");
+          if(dropDown.classList.contains('show')){
+            dropDown.classList.remove('show');
+          }
+        }
+      }
+    </script>
     <div id="map"></div>
     <script>
       var map, position;
@@ -271,9 +337,8 @@
       }
 
 
-
     </script>
-    <script async defer
+    <script 
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDv-GgCEfo8ntMixpbrvAP5KgDAyy45EX0&libraries=places&callback=initMap">
     </script>
   </body>
