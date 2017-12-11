@@ -26,7 +26,8 @@
 			First Name<br> <input type="text" name="fname" value=""> <br>
 			Last Name<br> <input type="text" name="lname" value=""> <br>
 			Password<br> <input type="password" name="password" value=""> <br>
-			<input type="submit" name="submit" value="Submit">
+			<input type="submit" name="submit" value="Submit"> <br><br>
+			<a href="register.php" style="font-size: 15px;">Login</a>
 		</form>
 
 		<br>
