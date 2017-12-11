@@ -15,7 +15,7 @@
 		// $connection = mysql_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD) or die(mysql_error());
 		// $database = mysql_select_db(DB_DATABASE) or die(mysql_error());
 
-		$connection = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE) or die(mysql_error());
+		$connection = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE) or die(mysqli_error());
 
 		return $connection;
 	}
@@ -63,5 +63,32 @@
 
 		$result = mysqli_query($connection, $query);
 	}
+
+
+	function insert_Places($longitude, $latitude, $location, $user_id)
+	{
+		$connection = connect_db();
+
+		$query = "insert into Places (longitude, latitude, location, user_id) ";
+		$query .= "values ('{$longitude}', '{$latitude}', '{$location}', '{$user_id}');";
+
+		$result = mysqli_query($connection, $query);
+	}
+
+	function list_Places($user_id)
+	{
+		$connection = connect_db();
+		$query = "select * from Places where user_id='{$user_id}';";
+
+		$result = mysqli_query($connection, $query);
+
+		while($row = mysqli_fetch_assoc($result))
+		{
+			echo "<h3> {$row['user_id']} </h3>";
+			echo "<p> Location: {$row['location']}, Longitude: {$row['longitude']}, Latitude: {$row['latitude']} <p>";
+		}
+	}
+
+
 
 ?>

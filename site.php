@@ -1,3 +1,16 @@
+<?php
+  ob_start();
+  session_start();
+  if(isset($_SESSION['id']) == null)
+  {
+    echo "<h3>You need to <a href='public/log_in.php'>log in</a>..</h3>";
+    echo "<h3>{$_SESSION['id']}</h3>";
+    die();
+  }
+
+  echo "<a href='public/log_out.php'><h3> log out </h3></a>";
+?>
+
 <html>
   <head>
     <title>Geolocation</title>
@@ -116,6 +129,17 @@
         console.log(`More or less ${position.accuracy} meters.`);
       };
 
+      function loadURL(marker){
+      	return function(){
+      		if(marker.url != null){
+      			window.open(
+  					marker.url,
+  					'_blank' //Opens in new tab
+				);
+      		}
+      	}
+      }
+
       function error(err) {
         console.warn(`ERROR(${err.code}): ${err.message}`);
       };
@@ -193,12 +217,33 @@
         infowindow = new google.maps.InfoWindow();
         for(i in data){
           if (data[i].coordinates != null){
+
+          	var dataSplit = data[i].full_text.split(' ');
+          	var sourceUrl = dataSplit[dataSplit.length-1];
+
+          	var src = data[i].source.split("\"")[1];
+          	var basePath = "http://127.0.0.1/Trendzy/img/";
+          	var iconPath;
+          	if (src == "http://instagram.com"){
+          		iconPath = "instagram.png";
+          	} else if (src == "http://foursquare.com"){
+          		iconPath = "foursquare.png";
+          	} else {
+          		iconPath = "twitter.png";
+          		sourceUrl = null; //twitter links don't work
+          	}
+          	basePath += iconPath;
+
             var latLng = new google.maps.LatLng({lat: data[i].coordinates.coordinates[1],lng: data[i].coordinates.coordinates[0]});
             var marker = new google.maps.Marker({
               position: latLng,
               map: map,
+     		  icon: basePath,
+     		  url: sourceUrl,
               title: data[i].full_text
             });
+
+            google.maps.event.addListener(marker, 'click', loadURL(marker));
 
             console.log(marker.getTitle());
             google.maps.event.addListener(marker, 'click', function () {
