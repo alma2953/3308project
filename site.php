@@ -116,6 +116,7 @@
       };
 
       function success(pos) {
+       getUserID();
        position = pos.coords;
         var latLng = new google.maps.LatLng({lat: position.latitude, lng: position.longitude});
         map.panTo(latLng);
@@ -261,8 +262,13 @@
         }    
       }
 
+      function getUserID(){
+        var id  = <?php echo $_SESSION['id']?>;
+        return id;
+      }
 
       function addPlaces(){
+        getUserID();
         var latlng = map.getCenter();
         var addy;
         var geocoder = new google.maps.Geocoder;
@@ -273,11 +279,11 @@
             }
           }
         })
-
+         console.log(getUserID());
         $(document).ready(function() {
           var url = 'http://127.0.0.1/Trendzy/includes/addPlace.php'
           $.ajax({url:url, dataType:"json", 
-            data: {lat: latlng.lat(), long: latlng.lng(), location: addy, user_id: 6}
+            data: {lat: latlng.lat(), long: latlng.lng(), location: addy, user_id: getUserID()}
         })
         })
 
@@ -290,7 +296,7 @@
         $(document).ready(function() {
           var url = 'http://127.0.0.1/Trendzy/includes/listPlaces.php'
           $.ajax({url:url, 
-            data: {user_id: 6}
+            data: {user_id: getUserID()}
         }).then(function(data) {
               console.log("THIS IS THE DATA "+data);
           })
@@ -298,8 +304,8 @@
 
       }
 
-
       function getTwitterData(latitude, longitude){
+        console.log("out");
         var twitterJsonObject;
        $(document).ready(function() {
           var url = 'twitter.php'
