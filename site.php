@@ -425,7 +425,7 @@
       }
 
       function getUserID(){
-        var id  = <?php echo $_SESSION['id']?>;
+        var id  = "<?php echo $_SESSION['id']; ?>";
         return id;
       }
 
