@@ -47,6 +47,10 @@
           src: url(BuffaloScript-Regular.otf);
       }
 
+      #clickText {
+        cursor: pointer;
+      }
+
       .dropdown-content {
           display: none;
           position: ;
@@ -241,7 +245,7 @@
                       $name = $arr[0];
                       $lat = $arr[1];
                       $long = $arr[2];
-                      echo "<a onclick=\"getTwitterData($lat, $long)\">$name</a>";
+                      echo "<a id=\"clickText\" onclick=\"getTwitterData($lat, $long)\">$name</a>";
                     }
                   ?>
                 <!-- <a  href="javascript:addPlaces()"> Add Place </a> -->
@@ -485,6 +489,7 @@
       }
 
       function getTwitterData(latitude, longitude){
+        map.panTo({lat:latitude, lng:longitude});
         var twitterJsonObject;
        $(document).ready(function() {
           var url = 'twitter.php'
