@@ -33,11 +33,11 @@
 	if($tmp == "")
 	{
 		insert_Users($username, $email, $firstname, $lastname, $password);
-		redirect_to("../public/log_in.php");
+		redirect_to("../public/signuplogin?login=1.php");
 	}
 	else
 	{
-		redirect_to("../public/register.php?again=1&{$tmp}");
+		redirect_to("../public/signuplogin?signup=1&again=1&{$tmp}");
 	}
 	
 	ob_end_flush();

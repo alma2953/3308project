@@ -38,7 +38,6 @@
     <meta charset="utf-8">
     <input id="pac-input" class="controls" type="text" placeholder="Search Box">
     <div  id="map-canvas"></div>
-
     
     <style>
 
@@ -499,7 +498,7 @@
 
     </script>
     <script 
-    src="https://maps.googleapis.com/maps/api/js?key= AIzaSyCtw3lW1ZxI4fmZv_Umde-aX1pSnSrWzTU&libraries=places&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCtw3lW1ZxI4fmZv_Umde-aX1pSnSrWzTU&libraries=places&callback=initMap">
     </script>
   </body>
 </html>
