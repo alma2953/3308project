@@ -32,7 +32,7 @@
 
 <html>
   <head>
-    <title>Geolocation</title>
+    <title>Trendzy</title>
 
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
