@@ -66,5 +66,50 @@
 		$result = mysqli_query($connection, $query);
 	}
 
+	function insert_Places($longitude, $latitude, $location, $user_id)
+ 	{
+ 		$connection = connect_db();
+ 
+		$query = "insert into Places (longitude, latitude, location, user_id) ";
+ 		$query .= "select * from (select {$longitude}, {$latitude}, '{$location}', {$user_id}) as tmp ";
+ 		$query .= "where not exists (";
+ 		$query .= "select location from Places where location='{$location}') limit 1;";
+
+ 		$result = mysqli_query($connection, $query);
+ 	}
+ 
+ 	function list_Places($user_id)
+ 	{
+ 		$connection = connect_db();
+ 		$query = "select * from Places where user_id={$user_id};";
+ 
+ 		$result = mysqli_query($connection, $query);
+ 		
+ 		$arr = array();
+ 		while($row = mysqli_fetch_assoc($result))
+ 		{
+ 			// echo "<h3> {$row['user_id']} </h3>";
+ 			// echo "<p> Location: {$row['location']}, Longitude: {$row['longitude']}, Latitude: {$row['latitude']} <p>";
+
+ 			array_push($arr, $row['location']);
+ 		}
+
+ 		return $arr;
+ 	}
+
+ 	function getCoordinates($address){
+ 
+	$address = str_replace(" ", "+", $address); 
+	 
+	$url = "http://maps.google.com/maps/api/geocode/json?sensor=false&address=$address";
+	 
+	$response = file_get_contents($url);
+	 
+	$json = json_decode($response,TRUE); 
+	
+	$arr = array('lat'=>$json['results'][0]['geometry']['location']['lat'], 'lng'=>$json['results'][0]['geometry']['location']['lng']);
+
+	return $arr;
+	}
 
 ?>
