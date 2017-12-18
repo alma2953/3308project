@@ -234,13 +234,16 @@
                     }
                   }
                 </script>
-                <?php
-                  $places = list_Places($_SESSION['id']);
-                  foreach($places as $place)  {
-                    echo "<a>$place</a>";
-                  }
-                  
-                ?>
+                  <?php
+                    $places = list_Places($_SESSION['id']);
+                    foreach($places as $place)  {
+                      $arr = str_getcsv($place); //separate returned csv string to display place and not lat/long
+                      $name = $arr[0];
+                      $lat = $arr[1];
+                      $long = $arr[2];
+                      echo "<a>$name</a>";
+                    }
+                  ?>
                 <!-- <a  href="javascript:addPlaces()"> Add Place </a> -->
                 <form action="site.php" method="post">
                 <input type="text" name="addplace" value="" placeholder="Enter place name"> <br>

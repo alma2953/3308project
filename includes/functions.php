@@ -88,10 +88,11 @@
  		$arr = array();
  		while($row = mysqli_fetch_assoc($result))
  		{
+ 			$val = $row['location'] . "," . $row['latitude'] . "," . $row['longitude'];
  			// echo "<h3> {$row['user_id']} </h3>";
  			// echo "<p> Location: {$row['location']}, Longitude: {$row['longitude']}, Latitude: {$row['latitude']} <p>";
 
- 			array_push($arr, $row['location']);
+ 			array_push($arr, $val);
  		}
 
  		return $arr;
