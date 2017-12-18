@@ -7,8 +7,8 @@
   {
     $var1 = "Login";
     $var2 = "Register";
-    $path1 = "public/log_in.php";
-    $path2 = "public/register.php";
+    $path1 = "public/login.php";
+    $path2 = "public/signup.php";
   }
   else
   {

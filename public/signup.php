@@ -9,30 +9,31 @@
 
 <body>
   <div class="form">
-      
-      <?php
-        if($_GET['login'] == 1)
-        { ?>
-          <ul class="tab-group">
-            <li class="tab"><a href="#signup">Sign Up</a></li>
-            <li class="tab active"><a href="#login">Log In</a></li>
-          </ul>
-        <?php } 
-          if($_GET["again"] == 1) { ?>
-            <h3>Please try again</h3>
-          <?php } ?>
-      <?php
-        else
-        {?>
-          <ul class="tab-group">
-            <li class="tab active"><a href="#signup">Sign Up</a></li>
-            <li class="tab"><a href="#login">Log In</a></li>
-          </ul>
+      <div style="font-size:25px; color: white;">
+        <ul class="tab-group">
+          <li class="tab active"><a href="#signup">Sign Up</a></li>
+          <li class="tab"><a href="#login">Log In</a></li>
+        </ul>
+        <?php 
+          if($_GET["again"] == 1) 
+          { 
+            echo "<h3>Please try again</h3>";
+            echo "<ul>";
+            if($_GET["user"] == 1) 
+              echo "<li><p>Username exists</p></li>";
+            if($_GET["email"] == 1) 
+              echo "<li><p>Email exists</p></li>";
+            if($_GET["check_email"] == 1)
+              echo "<li><p>Enter a valid email</p></li>";
+            echo "</ul>";
+          } 
+        ?>
+      </div>
       
       <div class="tab-content">
+
         <div id="signup">   
           <form action="../includes/register_process.php" method="post">
-
           <div class="top-row">
             <div class="field-wrap">
               <label>
@@ -76,7 +77,7 @@
         
         <div id="login">   
           <h1>Welcome Back!</h1>
-          <form action="/" method="post">
+          <form action="../includes/log_in_process.php" method="post">
 
             <div class="field-wrap">
             <label>
@@ -89,7 +90,7 @@
             <label>
               Password<span class="req">*</span>
             </label>
-            <input type="password"required autocomplete="off"/>
+            <input type="password"required autocomplete="off" name="password"/>
           </div>
                     
           <button class="button button-block"/>Log In</button>

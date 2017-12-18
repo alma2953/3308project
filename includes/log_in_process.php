@@ -23,7 +23,7 @@
 	}
 	else
 	{ 
-		redirect_to("../public/signuplogin.php?login=1?again=1");
+		redirect_to("../public/login.php?again=1");
 	}
 
 	ob_end_flush();
