@@ -32,7 +32,7 @@
 
 <html>
   <head>
-    <title>Geolocation</title>
+    <title>Trendzy</title>
 
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
@@ -265,7 +265,7 @@
           <?php } ?>
       </div>
     </div>
-    <span style="font-size:60px; font-family: buffalo; font-weight: bold; cursor:pointer" onclick="openNav()">&#9776; Trendzy</span>
+    <span style="font-size:60px; font-family: buffalo; font-weight: bold; cursor: pointer;" onclick="openNav()">&#9776; Trendzy</span>
 
     <script>
     function openNav() {

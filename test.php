@@ -1,1 +1,0 @@
-insert into Places (longitude, latitude, location, user_id) values (1, 1, 1, 1) where not exists (select location from Places where location='{$location}';
