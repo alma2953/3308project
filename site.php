@@ -18,6 +18,16 @@
     $path2 = "#";
   }
 
+  if(isset($_POST['addplace']))
+  {
+    $place = $_POST['addplace'];
+    $arr = getCoordinates($place);
+
+    $lat = $arr['lat'];
+    $lng = $arr['lng'];
+
+    insert_Places($lng, $lat, $place, $_SESSION['id']);
+  }
 ?>
 
 <html>
@@ -224,14 +234,21 @@
                     }
                   }
                 </script>
-                <?php
-                  $places = array("Manhattan", "Boulder", "Pyongang");
-                  foreach($places as $place)  {
-                    echo "<a>$place</a>";
-                  }
-                  
-                ?>
-                <a  href="javascript:addPlaces()"> Add Place </a>
+                  <?php
+                    $places = list_Places($_SESSION['id']);
+                    foreach($places as $place)  {
+                      $arr = str_getcsv($place); //separate returned csv string to display place and not lat/long
+                      $name = $arr[0];
+                      $lat = $arr[1];
+                      $long = $arr[2];
+                      echo "<a onclick=\"getTwitterData($lat, $long)\">$name</a>";
+                    }
+                  ?>
+                <!-- <a  href="javascript:addPlaces()"> Add Place </a> -->
+                <form action="site.php" method="post">
+                <input type="text" name="addplace" value="" placeholder="Enter place name"> <br>
+                <input type="submit" name="submit" value="Add Place"> <br><br>
+              </form>
               </div>
             </div>
 
@@ -321,7 +338,7 @@
           } else {
             getTwitterData(40.0076,-105.2659);
           }
-          addPlaces();
+          //addPlaces();
 
            // Create the search box and link it to the UI element.
   var input = /** @type {HTMLInputElement} */(
