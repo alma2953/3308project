@@ -23,6 +23,7 @@
 <html>
   <head>
     <title>Geolocation</title>
+
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <input id="pac-input" class="controls" type="text" placeholder="Search Box">
@@ -481,7 +482,7 @@
 
     </script>
     <script 
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDv-GgCEfo8ntMixpbrvAP5KgDAyy45EX0&libraries=places&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key= AIzaSyCtw3lW1ZxI4fmZv_Umde-aX1pSnSrWzTU&libraries=places&callback=initMap">
     </script>
   </body>
 </html>
