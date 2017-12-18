@@ -258,7 +258,7 @@
           <?php } ?>
       </div>
     </div>
-    <span style="font-size:60px; font-family: buffalo; font-weight: bold; cursor:pointer" onclick="openNav()">&#9776; Trendzy</span>
+    <span style="font-size:60px; font-family: buffalo; font-weight: bold; cursor: pointer;" onclick="openNav()">&#9776; Trendzy</span>
 
     <script>
     function openNav() {
