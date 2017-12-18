@@ -241,7 +241,7 @@
                       $name = $arr[0];
                       $lat = $arr[1];
                       $long = $arr[2];
-                      echo "<a>$name</a>";
+                      echo "<a onclick=\"getTwitterData($lat, $long)\">$name</a>";
                     }
                   ?>
                 <!-- <a  href="javascript:addPlaces()"> Add Place </a> -->
